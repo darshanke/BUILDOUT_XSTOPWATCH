@@ -2,40 +2,48 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 
 function App() {
-  const [isRunning, setIsRunning] = useState(false);
-  const [time, setTime] = useState(0); // Time in seconds
+ 
   const [name, setName] = useState("Start");
+  const [time,setTime] = useState(0);
+  const [running,setrunning] = useState(false);
 
   const handleClick = () => {
-    setIsRunning(!isRunning);
-    setName(isRunning ? "Start" : "Stop");
+
+    setrunning(!running)
+    setName(running? "Start" : "Stop");
+   
   };
+  useEffect(()=>{
+    let id ='';
+   if(running){
+   id=  setInterval(()=>{
+      setTime((prev)=>prev+1)
+    },1000)
+   }
+   else{
+    clearInterval(id)
+   }
+   return ()=>clearInterval(id);
+  },[running])
 
   const handleReset = () => {
-    setIsRunning(false);
     setName("Start");
+    setrunning(false);
     setTime(0);
   };
-
-  useEffect(() => {
-    let interval;
-    if (isRunning) {
-      interval = setInterval(() => {
-        setTime((prevTime) => prevTime + 1);
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [isRunning]);
+ 
 
 
-  const formatTime = (seconds) => {
-    const minutes = String(Math.floor(seconds / 60)).padStart(2, "0");
-    const secs = String(seconds % 60).padStart(2, "0");
-    return `${minutes}:${secs}`;
-  };
+  const formatTime=(seconds)=>{
+    const minutes = Math.floor(seconds/60);
+    const remainingSeconds  = seconds%60;
+    return `${minutes}:${remainingSeconds<10? "0": ""}${remainingSeconds}`
+  }
+
+
 
   return (
-    <div className="App">
+    <div style={{marginLeft:"2rem"}}>
       <h1>StopWatch</h1>
       <h4>
         Time: <span>{formatTime(time)}</span>
