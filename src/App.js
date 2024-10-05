@@ -44,10 +44,10 @@ function App() {
 
   return (
     <div style={{marginLeft:"2rem"}}>
-      <h1>StopWatch</h1>
-      <h4>
-        Time: <span>{formatTime(time)}</span>
-      </h4>
+      <h1>Stopwatch</h1>
+      <p>
+        Time: <span>{formatTime(time)}</span> 
+      </p>
       <button onClick={handleClick}>{name}</button>
       <button onClick={handleReset}>Reset</button>
     </div>
